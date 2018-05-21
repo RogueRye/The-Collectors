@@ -16,10 +16,13 @@ public class EnemyAI : MonoBehaviour {
     public float runSpeed;
     public float stunTime = 1;
     [Header("Info")]
+    public Transform eyes;
     public WayPoints[] wayPoints;
 
+
     int curWp = 0;
-    NavMeshAgent agent;
+    [HideInInspector]
+    public NavMeshAgent agent;
     [HideInInspector]
     public bool isInView;
     [HideInInspector]
@@ -27,7 +30,7 @@ public class EnemyAI : MonoBehaviour {
     [HideInInspector]
     public Animator anim;
     KillBox mKillBox;
-
+    bool arrived = false;
 
     float moveAmount;
     Vector3 lastKnownPosition;
@@ -53,6 +56,7 @@ public class EnemyAI : MonoBehaviour {
             {
                 StartCoroutine(StunTimer());
             }
+            anim.SetBool("stunned", isFrozen);
             Debug.Log("Is stunned = " + isFrozen);
         }
     }
@@ -121,13 +125,13 @@ public class EnemyAI : MonoBehaviour {
                 if (dir == Vector3.zero)
                     dir = transform.forward;
 
-                var angle = Vector3.Angle(transform.forward, dir);
+                var angle = Vector3.Angle(eyes.forward, dir);
 
                 if (angle < fieldOfView)
                 {
-                    var ray = new Ray(transform.position + Vector3.up, dir);
+                    var ray = new Ray(eyes.position, dir);
                     var hit = new RaycastHit();
-                    Debug.DrawRay(transform.position + Vector3.up, dir * range, Color.red);
+                    Debug.DrawRay(eyes.position, dir * range, Color.red);
                     if (Physics.Raycast(ray, out hit, range))
                     {
                         if (hit.transform == target)
@@ -163,9 +167,9 @@ public class EnemyAI : MonoBehaviour {
 
         var viewAngleA = DirFromAngle(-fieldOfView / 2, false);
         var viewAngleB = DirFromAngle(fieldOfView / 2, false);
-        Gizmos.DrawLine(transform.position + (Vector3.up * 2), transform.position + transform.forward* range + (Vector3.up *2));
-        Gizmos.DrawLine(transform.position + (Vector3.up *2), transform.position + viewAngleA * range + (Vector3.up * 2));
-        Gizmos.DrawLine(transform.position + (Vector3.up * 2), transform.position + viewAngleB * range + (Vector3.up * 2));
+        Gizmos.DrawLine(eyes.position, eyes.position + eyes.forward* range);
+        Gizmos.DrawLine(eyes.position, eyes.position + viewAngleA * range);
+        Gizmos.DrawLine(eyes.position , eyes.position + viewAngleB * range);
 
     }
 
@@ -173,7 +177,7 @@ public class EnemyAI : MonoBehaviour {
     {
         if (!angleIsGlobal)
         {
-            angleInDefrees += ( transform.eulerAngles.y);
+            angleInDefrees += ( eyes.eulerAngles.y);
         }
         return new Vector3(Mathf.Sin(angleInDefrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDefrees * Mathf.Deg2Rad));
     }
@@ -181,7 +185,7 @@ public class EnemyAI : MonoBehaviour {
     void Patrol()
     {
         //Debug.Log("Patrolling " + curWp);
-
+        
         if (wayPoints.Length == 0)
         {
             ChangeState(AIStates.idle);
@@ -195,10 +199,19 @@ public class EnemyAI : MonoBehaviour {
         agent.SetDestination(wayPoints[curWp].point.position);
         if (agent.remainingDistance < 0.3f)
         {
+            if (!arrived)
+            {
+                if (!string.IsNullOrEmpty(wayPoints[curWp].idleAnim))
+                {
+                    anim.CrossFade(wayPoints[curWp].idleAnim, .4f);
+                }
+                arrived = true;
+            }
             wpTimer += Time.deltaTime;
             if(wpTimer >= wayPoints[curWp].waitTime)
             {
                 curWp = (curWp + 1) % (wayPoints.Length);
+                arrived = false;
                 wpTimer = 0;
             }
         }
@@ -261,6 +274,7 @@ public class EnemyAI : MonoBehaviour {
         // Enable UI to display that you're frozen
         yield return new WaitForSeconds(stunTime);
         isFrozen = false;
+ 
     }
 
 }
@@ -269,5 +283,7 @@ public class EnemyAI : MonoBehaviour {
 public class WayPoints
 {
     public Transform point;
+    public string idleAnim = " ";
     public float waitTime = 1.4f;
+
 }

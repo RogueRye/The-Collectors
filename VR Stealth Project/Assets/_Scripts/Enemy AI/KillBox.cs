@@ -17,6 +17,7 @@ public class KillBox : MonoBehaviour {
        if(other.transform == target)
         {
             owner.anim.Play("Kill");
+            owner.agent.enabled = false;
             OfflineGameManager.singleton.AssignWinner(owner.gameObject);
         }      
     }
