@@ -33,6 +33,7 @@ public class PlayerPower : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
+     
 
         if (hand.controller.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip))
         {

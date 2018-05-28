@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Valve.VR.InteractionSystem;
+
 public class EnemyDetector : MonoBehaviour {
 
     public Image detector;
@@ -21,6 +23,8 @@ public class EnemyDetector : MonoBehaviour {
         safe, warning, danger
     }
 
+    Hand r_hand;
+    Hand l_hand;
 
 	// Use this for initialization
 	void Start () {
@@ -29,7 +33,10 @@ public class EnemyDetector : MonoBehaviour {
         {
             aiUnits.Add(OfflineGameManager.singleton.ai_units[i]);
         }
-	}
+
+        r_hand = Player.instance.GetHand((int)Hand.HandType.Right);
+        l_hand = Player.instance.GetHand((int)Hand.HandType.Left);
+    }
 	
 	// Update is called once per frame
 	void Update () {

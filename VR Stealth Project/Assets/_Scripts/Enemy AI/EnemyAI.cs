@@ -10,11 +10,14 @@ public class EnemyAI : MonoBehaviour {
     [Header("Stats")]
     [Range(1.0f, 50.0f)]
     public float range = 10f;
+    [Range(.1f, 10.0f)]
+    public float innerRange = 2f;
     [Range(0.0f, 360.0f)]
     public float fieldOfView = 35;
     public float walkSpeed = 3;
     public float runSpeed;
     public float stunTime = 1;
+    public float distanceTimeout = 7f;
     [Header("Info")]
     public Transform eyes;
     public WayPoints[] wayPoints;
@@ -25,6 +28,7 @@ public class EnemyAI : MonoBehaviour {
     public NavMeshAgent agent;
     [HideInInspector]
     public bool isInView;
+    bool isInSight;
     [HideInInspector]
     public AIStates curState;
     [HideInInspector]
@@ -35,6 +39,9 @@ public class EnemyAI : MonoBehaviour {
     float moveAmount;
     Vector3 lastKnownPosition;
     float wpTimer = 0;
+    float distanceTimer = 0;
+
+
     public enum AIStates
     {
         idle, patrol, chase, stunned
@@ -54,6 +61,8 @@ public class EnemyAI : MonoBehaviour {
             isFrozen = value;
             if (value == true)
             {
+                //Being stunned loses track of the player
+                isInView = false;
                 StartCoroutine(StunTimer());
             }
             anim.SetBool("stunned", isFrozen);
@@ -64,7 +73,8 @@ public class EnemyAI : MonoBehaviour {
 
     // Use this for initialization
     public void Start () {
-        
+
+        distanceTimer = distanceTimeout;
         agent = GetComponent<NavMeshAgent>();
         curState = AIStates.idle;
         anim = GetComponentInChildren<Animator>();
@@ -86,8 +96,6 @@ public class EnemyAI : MonoBehaviour {
 
         if (!IsFrozen)
         {
-
-           
             if (!agent.enabled)
                 agent.enabled = true;
             LocateEnemy();
@@ -104,19 +112,42 @@ public class EnemyAI : MonoBehaviour {
 
      
         DetermineAction(curState);
-
-
         HandleAnimations(agent.desiredVelocity);
+
+        // If is tracking player but cannot see them, countdown until they lose track
+        if (!isInSight && isInView)
+        {
+            distanceTimer = Mathf.Clamp(distanceTimer - Time.deltaTime, 0, distanceTimeout);
+            if(distanceTimer <= 0)
+            {
+                isInView = false;
+                distanceTimer = distanceTimeout;
+            }
+        }
+        //When the android can see them, reset the timer
+        if (isInSight)
+            distanceTimer = distanceTimeout;
 
     }
 
 
     public void LocateEnemy()
     {
-        isInView = false;
+        //isInView = false;
+        isInSight = false;
         if (target != null)
         {
             var distance = Vector3.Distance(transform.position, target.position);
+            //If the player is really close, AI knows they are there
+            if(distance < innerRange)
+            {
+                isInView = true;
+                var dir = target.position - transform.position;
+                if (isInView)
+                    HandleRotations(dir);
+                return;
+            }
+            
             if (distance < range)
             {
 
@@ -126,7 +157,7 @@ public class EnemyAI : MonoBehaviour {
                     dir = transform.forward;
 
                 var angle = Vector3.Angle(eyes.forward, dir);
-
+                //if they're in range, check angle to see if they're in view and not behind an obstacle
                 if (angle < fieldOfView)
                 {
                     var ray = new Ray(eyes.position, dir);
@@ -136,20 +167,19 @@ public class EnemyAI : MonoBehaviour {
                     {
                         if (hit.transform == target)
                         {       
-                            isInView = true;                           
+                            isInView = true;
+                            isInSight = true;
                         }
                     }
                     if(isInView)
                         HandleRotations(dir);
-
                 }
 
             }
 
         }
 
-        if (isInView) { 
-}
+
     }
 
     public void HandleRotations(Vector3 dir)
@@ -158,11 +188,14 @@ public class EnemyAI : MonoBehaviour {
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 5);
     }
     
-
+    // Editor feedback
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
+        Gizmos.color = Color.grey;   
+        Gizmos.DrawWireSphere(transform.position, innerRange);
+
         Gizmos.color = Color.blue;
 
         var viewAngleA = DirFromAngle(-fieldOfView / 2, false);
@@ -183,8 +216,7 @@ public class EnemyAI : MonoBehaviour {
     }
 
     void Patrol()
-    {
-        //Debug.Log("Patrolling " + curWp);
+    {      
         
         if (wayPoints.Length == 0)
         {
@@ -192,7 +224,6 @@ public class EnemyAI : MonoBehaviour {
             return;
         }
 
-        
         agent.speed = walkSpeed;
 
         agent.stoppingDistance = .3f;
