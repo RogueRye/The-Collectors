@@ -124,7 +124,6 @@ GameObject:
   - component: {fileID: 60875877}
   - component: {fileID: 60875876}
   - component: {fileID: 60875875}
-  - component: {fileID: 60875874}
   - component: {fileID: 60875878}
   m_Layer: 5
   m_Name: Loading Slider
@@ -152,20 +151,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 1.4330139}
   m_SizeDelta: {x: 800, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &60875874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 60875872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc0bc3d9b5ab59b43a5e1fa1f15ec49d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 0}
-  slider: {fileID: 0}
-  progressText: {fileID: 0}
 --- !u!114 &60875875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1716,7 +1701,6 @@ GameObject:
   - component: {fileID: 358075357}
   - component: {fileID: 358075356}
   - component: {fileID: 358075355}
-  - component: {fileID: 358075354}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -1743,20 +1727,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 1.4330139}
   m_SizeDelta: {x: 1600.0002, y: 898.5223}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &358075354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 358075352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc0bc3d9b5ab59b43a5e1fa1f15ec49d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 0}
-  slider: {fileID: 0}
-  progressText: {fileID: 0}
 --- !u!114 &358075355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1893,7 +1863,6 @@ GameObject:
   - component: {fileID: 371958964}
   - component: {fileID: 371958963}
   - component: {fileID: 371958962}
-  - component: {fileID: 371958961}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -1901,20 +1870,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &371958961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 371958960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc0bc3d9b5ab59b43a5e1fa1f15ec49d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 0}
-  slider: {fileID: 0}
-  progressText: {fileID: 0}
 --- !u!114 &371958962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2268,11 +2223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed2bdd36c8f45240a67a0682d726e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionSprite: {fileID: 0}
-  enlargeSelection: 1
-  enlargeAmount: 1.1
-  btn: {fileID: 391581905}
-  originalScale: {x: 0, y: 0, z: 0}
 --- !u!114 &391581905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5517,7 +5467,6 @@ GameObject:
   - component: {fileID: 1281466622}
   - component: {fileID: 1281466621}
   - component: {fileID: 1281466620}
-  - component: {fileID: 1281466619}
   m_Layer: 5
   m_Name: Controls
   m_TagString: Untagged
@@ -5525,20 +5474,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1281466619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1281466618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc0bc3d9b5ab59b43a5e1fa1f15ec49d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 0}
-  slider: {fileID: 0}
-  progressText: {fileID: 0}
 --- !u!114 &1281466620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7336,11 +7271,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -7557,11 +7492,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -7965,11 +7900,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:

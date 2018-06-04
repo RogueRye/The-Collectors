@@ -36,7 +36,7 @@ public class EnemyAI : MonoBehaviour {
     KillBox mKillBox;
     bool arrived = false;
 
-    float moveAmount;
+ 
     Vector3 lastKnownPosition;
     float wpTimer = 0;
     float distanceTimer = 0;
@@ -59,14 +59,13 @@ public class EnemyAI : MonoBehaviour {
         set
         {
             isFrozen = value;
+           
             if (value == true)
             {
                 //Being stunned loses track of the player
-                isInView = false;
                 StartCoroutine(StunTimer());
             }
-            anim.SetBool("stunned", isFrozen);
-            Debug.Log("Is stunned = " + isFrozen);
+           
         }
     }
 
@@ -98,6 +97,7 @@ public class EnemyAI : MonoBehaviour {
         {
             if (!agent.enabled)
                 agent.enabled = true;
+
             LocateEnemy();
 
             if (isInView)
@@ -114,19 +114,19 @@ public class EnemyAI : MonoBehaviour {
         DetermineAction(curState);
         HandleAnimations(agent.desiredVelocity);
 
-        // If is tracking player but cannot see them, countdown until they lose track
-        if (!isInSight && isInView)
-        {
-            distanceTimer = Mathf.Clamp(distanceTimer - Time.deltaTime, 0, distanceTimeout);
-            if(distanceTimer <= 0)
-            {
-                isInView = false;
-                distanceTimer = distanceTimeout;
-            }
-        }
-        //When the android can see them, reset the timer
-        if (isInSight)
-            distanceTimer = distanceTimeout;
+        //// If is tracking player but cannot see them, countdown until they lose track
+        //if (!isInSight && isInView)
+        //{
+        //    distanceTimer = Mathf.Clamp(distanceTimer - Time.deltaTime, 0, distanceTimeout);
+        //    if (distanceTimer <= 0)
+        //    {
+        //        isInView = false;
+        //        distanceTimer = distanceTimeout;
+        //    }
+        //}
+        ////When the android can see them, reset the timer
+        //if (isInSight)
+        //    distanceTimer = distanceTimeout;
 
     }
 
@@ -135,6 +135,7 @@ public class EnemyAI : MonoBehaviour {
     {
         //isInView = false;
         isInSight = false;
+        Debug.DrawRay(eyes.position, eyes.forward * range, Color.red);
         if (target != null)
         {
             var distance = Vector3.Distance(transform.position, target.position);
@@ -145,10 +146,10 @@ public class EnemyAI : MonoBehaviour {
                 var dir = target.position - transform.position;
                 if (isInView)
                     HandleRotations(dir);
+                
                 return;
-            }
-            
-            if (distance < range)
+            }            
+            else if (distance < range)
             {
 
                 var dir = target.position - transform.position;
@@ -156,12 +157,12 @@ public class EnemyAI : MonoBehaviour {
                 if (dir == Vector3.zero)
                     dir = transform.forward;
 
-                var angle = Vector3.Angle(eyes.forward, dir);
+                var angle = Vector3.Angle(eyes.forward, dir) /2;
                 //if they're in range, check angle to see if they're in view and not behind an obstacle
-                if (angle < fieldOfView)
+                if (angle < fieldOfView / 2)
                 {
                     var ray = new Ray(eyes.position, dir);
-                    var hit = new RaycastHit();
+                    var hit = new RaycastHit();                   
                     Debug.DrawRay(eyes.position, dir * range, Color.red);
                     if (Physics.Raycast(ray, out hit, range))
                     {
@@ -216,34 +217,40 @@ public class EnemyAI : MonoBehaviour {
     }
 
     void Patrol()
-    {      
-        
+    {
+
         if (wayPoints.Length == 0)
         {
             ChangeState(AIStates.idle);
             return;
         }
-
         agent.speed = walkSpeed;
 
         agent.stoppingDistance = .3f;
-        agent.SetDestination(wayPoints[curWp].point.position);
-        if (agent.remainingDistance < 0.3f)
+        agent.SetDestination(wayPoints[curWp].point.position);          
+        if(agent.remainingDistance > .4f && arrived)
         {
+            arrived = false;
+        }
+        if (agent.remainingDistance <= 0.3f)
+        {
+          
             if (!arrived)
             {
+             
                 if (!string.IsNullOrEmpty(wayPoints[curWp].idleAnim))
                 {
-                    anim.CrossFade(wayPoints[curWp].idleAnim, .4f);
+                    anim.CrossFade(wayPoints[curWp].idleAnim, .24f);
                 }
                 arrived = true;
             }
-            wpTimer += Time.deltaTime;
+            if(wpTimer < wayPoints[curWp].waitTime)
+                wpTimer += Time.deltaTime;
             if(wpTimer >= wayPoints[curWp].waitTime)
-            {
-                curWp = (curWp + 1) % (wayPoints.Length);
-                arrived = false;
+            {               
+                curWp = (curWp + 1) % (wayPoints.Length);        
                 wpTimer = 0;
+           
             }
         }
 
@@ -269,6 +276,8 @@ public class EnemyAI : MonoBehaviour {
                 Chase(lastKnownPosition);
                 break;
             case (AIStates.stunned):
+                anim.SetBool("stunned", true);
+                isInView = false;
                 break;
         }
     }
@@ -304,8 +313,11 @@ public class EnemyAI : MonoBehaviour {
     {
         // Enable UI to display that you're frozen
         yield return new WaitForSeconds(stunTime);
+        anim.SetBool("stunned", false);
         isFrozen = false;
- 
+        arrived = true;
+        isInView = false;
+
     }
 
 }
