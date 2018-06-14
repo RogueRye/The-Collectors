@@ -22,7 +22,7 @@ MonoBehaviour:
     enableTransmission: 1
     diffuseGlobalDimmer: 1
     specularGlobalDimmer: 1
-    enableForwardRenderingOnly: 1
+    enableForwardRenderingOnly: 0
     enableDepthPrepassWithDeferredRendering: 0
     enableTransparentPrepass: 1
     enableMotionVectors: 1
@@ -37,7 +37,7 @@ MonoBehaviour:
     enableAsyncCompute: 1
     enableOpaqueObjects: 1
     enableTransparentObjects: 1
-    enableMSAA: 1
+    enableMSAA: 0
     enableShadowMask: 0
     lightLoopSettings:
       enableTileAndCluster: 1
