@@ -11,19 +11,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Decade__ SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: 1935434323
   material: {fileID: 21355767461095696}
-  materialHashCode: 0
+  materialHashCode: 916005112
   fontAssetType: 1
   m_fontInfo:
     Name: Decade
     PointSize: 73
-    Scale: 0
+    Scale: 1
     CharacterCount: 67
     LineHeight: 77.75
     Baseline: 0
     Ascender: 61.625
-    CapHeight: 0
+    CapHeight: 58.3125
     Descender: -16.1875
     CenterLine: 0
     SuperscriptOffset: 61.625
@@ -33,7 +33,7 @@ MonoBehaviour:
     UnderlineThickness: 1.4600002
     strikethrough: 16.522728
     strikethroughThickness: 1.4600002
-    TabWidth: 0
+    TabWidth: 222.5
     Padding: 5
     AtlasWidth: 512
     AtlasHeight: 512
@@ -42,10 +42,10 @@ MonoBehaviour:
   - id: 32
     x: 6
     y: 517
-    width: 0
-    height: 0
+    width: 22.25
+    height: 77.8125
     xOffset: 0
-    yOffset: 0
+    yOffset: 61.625
     xAdvance: 22.25
     scale: 1
   - id: 46
@@ -711,7 +711,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Decade__ SDF Material
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: UNDERLAY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -766,12 +766,12 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.117
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.8333333
+    - _ScaleRatioB: 0.6770833
+    - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
@@ -783,10 +783,10 @@ Material:
     - _StencilWriteMask: 255
     - _TextureHeight: 512
     - _TextureWidth: 512
-    - _UnderlayDilate: 0
+    - _UnderlayDilate: 0.226
     - _UnderlayOffsetX: 0
     - _UnderlayOffsetY: 0
-    - _UnderlaySoftness: 0
+    - _UnderlaySoftness: 0.375
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
     - _WeightBold: 0.75
@@ -801,7 +801,7 @@ Material:
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+    - _UnderlayColor: {r: 0.4008989, g: 0.93396205, b: 0.9339623, a: 0.5}
 --- !u!28 &28652985598430628
 Texture2D:
   m_ObjectHideFlags: 0

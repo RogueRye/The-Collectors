@@ -10,6 +10,7 @@ public class SinglePlayerPickup : MonoBehaviour {
 
     public void Start()
     {
+
         player = Player.instance.gameObject.GetComponent<HandlePickups>();
         throwable = GetComponent<Throwable>();
 

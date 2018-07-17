@@ -18,6 +18,7 @@ public class PlayerPower : MonoBehaviour {
 
     public UnityEvent onGripDown;
     public UnityEvent onTouchpadUp;
+    public UnityEvent onMouseDown;
     Hand hand;
 
     private void Start()
@@ -27,24 +28,31 @@ public class PlayerPower : MonoBehaviour {
         if(batteryUI != null)
             batteryUI.maxValue = batteryLife;
 
-        hand = Player.instance.GetHand((int)Hand.HandType.Right);
+        if(Player.instance != null)
+            hand = Player.instance.GetHand((int)Hand.HandType.Right);
     }
 
     // Update is called once per frame
     void Update () {
 
-     
 
-        if (hand.controller.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip))
+        if (hand != null)
         {
-            onGripDown.Invoke();
-        }
+            if (hand.controller.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip))
+            {
+                onGripDown.Invoke();
+            }
 
-        if (hand.controller.GetPressUp(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad))
+            if (hand.controller.GetPressUp(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad))
+            {
+                onTouchpadUp.Invoke();
+            }
+
+        }
+        if (Input.GetButtonDown("Fire1"))
         {
-            onTouchpadUp.Invoke();
+            onMouseDown.Invoke();
         }
-
 
         if (flashlight.activeInHierarchy)
         {

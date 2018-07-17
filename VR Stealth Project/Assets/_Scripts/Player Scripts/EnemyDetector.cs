@@ -33,9 +33,11 @@ public class EnemyDetector : MonoBehaviour {
         {
             aiUnits.Add(OfflineGameManager.singleton.ai_units[i]);
         }
-
-        r_hand = Player.instance.GetHand((int)Hand.HandType.Right);
-        l_hand = Player.instance.GetHand((int)Hand.HandType.Left);
+        if (Player.instance != null)
+        {
+            r_hand = Player.instance.GetHand((int)Hand.HandType.Right);
+            l_hand = Player.instance.GetHand((int)Hand.HandType.Left);
+        }
     }
 	
 	// Update is called once per frame
