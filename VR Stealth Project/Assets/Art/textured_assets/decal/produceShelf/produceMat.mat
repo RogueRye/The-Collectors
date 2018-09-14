@@ -8,8 +8,8 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: produceMat
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _EMISSIVE_COLOR_MAP _MASKMAP _MATERIAL_FEATURE_ANISOTROPY _NORMALMAP
-    _NORMALMAP_TANGENT_SPACE
+  m_ShaderKeywords: _EMISSIVE_COLOR_MAP _MASKMAP _MATERIAL_FEATURE_ANISOTROPY _METALLICSPECGLOSSMAP
+    _NORMALMAP _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
