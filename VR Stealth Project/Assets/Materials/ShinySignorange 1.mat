@@ -257,9 +257,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.9433962, g: 0.58504593, b: 0.12014952, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
-    - _EmissionColor: {r: 1.386, g: 0.67824036, b: 0.41783825, a: 1}
+    - _EmissionColor: {r: 4, g: 4, b: 4, a: 1}
     - _EmissiveColor: {r: 1, g: 0.4893509, b: 0.30147058, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
