@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Valve.VR;
 using Valve.VR.InteractionSystem;
 
 public class EnemyDetector : MonoBehaviour {
@@ -14,6 +15,7 @@ public class EnemyDetector : MonoBehaviour {
     public float dangerDistance;
     public float warningDistance;
 
+    ThreatLevel prevLevel;
     ThreatLevel curLevel;
 
     List<EnemyAI> aiUnits = new List<EnemyAI>();
@@ -29,6 +31,7 @@ public class EnemyDetector : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         curLevel = ThreatLevel.safe;
+        ShowThreat();
         for (int i = 0; i < OfflineGameManager.singleton.ai_units.Length; i++)
         {
             aiUnits.Add(OfflineGameManager.singleton.ai_units[i]);
@@ -44,7 +47,7 @@ public class EnemyDetector : MonoBehaviour {
 	void Update () {
 
         DetermineThreat();
-        ShowThreat();
+        
 
 	}
 
@@ -52,21 +55,33 @@ public class EnemyDetector : MonoBehaviour {
     void DetermineThreat()
     {
         float distance;
+        prevLevel = curLevel;
 
-        curLevel = ThreatLevel.safe;
-       
         for (int i = 0; i < aiUnits.Count; i++)
         {
             distance = Vector3.Distance(aiUnits[i].transform.position, transform.position);
 
-            if (distance < warningDistance)
-                curLevel = ThreatLevel.warning;
-            if(distance < dangerDistance)
+            if (distance < dangerDistance)
             {
                 curLevel = ThreatLevel.danger;
                 break;
             }
+            else if (distance < warningDistance)
+            {
+                curLevel = ThreatLevel.warning;
+                break;
+            }
+            else
+            {
+                curLevel = ThreatLevel.safe;
+            }
 
+        }
+        if(prevLevel != curLevel)
+        {
+            ShowThreat();
+            ushort strength = ((ushort)((int)curLevel * 1000));      
+            l_hand.RumbleController(2, strength);
         }
 
     }
@@ -86,4 +101,7 @@ public class EnemyDetector : MonoBehaviour {
                 break;
         }
     }
+
+    
+
 }

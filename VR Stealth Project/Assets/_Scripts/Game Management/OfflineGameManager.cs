@@ -51,7 +51,7 @@ public class OfflineGameManager : MonoBehaviour {
             //ai_units[i].Init();
         }
         SpawnObjects();
-        messageDisplay.text = "Find the data files...";
+        //messageDisplay.text = "Find the data files...";
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;   
         gameInProgress = true;
@@ -63,7 +63,7 @@ public class OfflineGameManager : MonoBehaviour {
     {      
         yield return new WaitForSeconds(.5f);
 
-        messageDisplay.text = " ";
+        //messageDisplay.text = " ";
         gameInProgress = true;
         while (gameInProgress)
         {
@@ -134,7 +134,6 @@ public class OfflineGameManager : MonoBehaviour {
 
     public void AssignWinner(GameObject winner)
     {
-        Debug.Log("Assign winner");
         gameWinner = winner;
         gameInProgress = false;
     }

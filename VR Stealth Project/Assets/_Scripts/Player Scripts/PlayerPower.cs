@@ -36,7 +36,7 @@ public class PlayerPower : MonoBehaviour {
     void Update () {
 
 
-        if (hand != null)
+        if (hand.controller != null)
         {
             if (hand.controller.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip))
             {
@@ -62,6 +62,7 @@ public class PlayerPower : MonoBehaviour {
                 flashlight.SetActive(false);
                 currentBattery = 0;
             }
+            hand.controller.TriggerHapticPulse(300);
         }
         else
         {
