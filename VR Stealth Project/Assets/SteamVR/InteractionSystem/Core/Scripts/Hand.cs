@@ -829,12 +829,34 @@ namespace Valve.VR.InteractionSystem
 
 			return false;
 		}
+        /*
+         * Controller Rumble
+         * 
+         * */
+        public void RumbleController(float duration, float strength)
+        {
+            StartCoroutine(RumbleControllerRoutine(duration, strength));
+        }
 
+        IEnumerator RumbleControllerRoutine(float duration, float strength)
+        {
+            strength = Mathf.Clamp01(strength);
+            float startTime = Time.realtimeSinceStartup;
 
-		//-------------------------------------------------
-		// Is the standard interaction button being pressed? In VR, this is a trigger press. In 2D fallback, this is a mouse left-click.
-		//-------------------------------------------------
-		public bool GetStandardInteractionButton()
+            while (Time.realtimeSinceStartup - startTime <= duration)
+            {
+                int valveStrength = Mathf.RoundToInt(Mathf.Lerp(0, 3999, strength));
+
+                this.controller.TriggerHapticPulse((ushort)valveStrength);
+
+                yield return null;
+            }
+        }
+
+        //-------------------------------------------------
+        // Is the standard interaction button being pressed? In VR, this is a trigger press. In 2D fallback, this is a mouse left-click.
+        //-------------------------------------------------
+        public bool GetStandardInteractionButton()
 		{
 			if ( noSteamVRFallbackCamera )
 			{
