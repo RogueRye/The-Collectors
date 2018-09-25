@@ -21,7 +21,8 @@ public class EnemyAI : MonoBehaviour {
     [Header("Info")]
     public Transform eyes;
     public WayPoints[] wayPoints;
-
+    [Header("Sound Fx")]
+    public AudioClip[] stepFx;
 
     int curWp = 0;
     [HideInInspector]
@@ -40,7 +41,7 @@ public class EnemyAI : MonoBehaviour {
     Vector3 lastKnownPosition;
     float wpTimer = 0;
     float distanceTimer = 0;
-
+    AudioSource audioSource; 
 
     public enum AIStates
     {
@@ -72,7 +73,7 @@ public class EnemyAI : MonoBehaviour {
 
     // Use this for initialization
     public void Start () {
-
+        audioSource = GetComponent<AudioSource>();
         distanceTimer = distanceTimeout;
         agent = GetComponent<NavMeshAgent>();
         curState = AIStates.idle;
@@ -318,6 +319,11 @@ public class EnemyAI : MonoBehaviour {
         arrived = true;
         isInView = false;
 
+    }
+
+    public void Step()
+    {
+        audioSource.PlayOneShot(stepFx[Random.Range(0, stepFx.Length)]);
     }
 
 }
