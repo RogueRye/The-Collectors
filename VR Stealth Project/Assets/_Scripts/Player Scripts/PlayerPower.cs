@@ -12,11 +12,9 @@ public class PlayerPower : MonoBehaviour {
     public float decayRate = 1;
     public float rechargeRate = 0.5f;
     public float batteryLife = 10;
-    public AudioClip idleSFX;
-    public AudioClip activeSFX;
 
     float currentBattery;
-
+    
 
     public UnityEvent onGripDown;
     public UnityEvent onTouchpadUp;
@@ -29,7 +27,7 @@ public class PlayerPower : MonoBehaviour {
         flashlight.SetActive(false);
         if(batteryUI != null)
             batteryUI.maxValue = batteryLife;
-
+        
         if(Player.instance != null)
             hand = Player.instance.GetHand((int)Hand.HandType.Right);
     }
@@ -59,7 +57,8 @@ public class PlayerPower : MonoBehaviour {
         if (flashlight.activeInHierarchy)
         {
             currentBattery = Mathf.Clamp(currentBattery -= (Time.deltaTime * decayRate), 0, batteryLife);
-            if(currentBattery <= 0)
+
+            if (currentBattery <= 0)
             {
                 flashlight.SetActive(false);
                 currentBattery = 0;
@@ -74,7 +73,6 @@ public class PlayerPower : MonoBehaviour {
         if (batteryUI != null)
             batteryUI.value = currentBattery;
 
-		
 	}
 
     public void ToggleLight()

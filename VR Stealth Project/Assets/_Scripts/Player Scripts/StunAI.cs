@@ -5,8 +5,17 @@ using UnityEngine;
 public class StunAI : MonoBehaviour {
 
     [SerializeField] ParticleSystem zappyParticles;
-
+    [SerializeField] AudioClip idleSFX;
+    [SerializeField] AudioClip activeSFX;
     EnemyAI ai;
+
+    AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = idleSFX;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,6 +25,7 @@ public class StunAI : MonoBehaviour {
             ai = other.gameObject.GetComponent<EnemyAI>();
             ai.IsFrozen = true;
             zappyParticles.Play();
+            //audioSource.clip = activeSFX;
         }
     }
 
@@ -37,6 +47,7 @@ public class StunAI : MonoBehaviour {
     {
         
         zappyParticles.Stop();
+        audioSource.clip = idleSFX;
         ai = null;
     }
 
