@@ -12,6 +12,8 @@ public class PlayerPower : MonoBehaviour {
     public float decayRate = 1;
     public float rechargeRate = 0.5f;
     public float batteryLife = 10;
+    public AudioClip idleSFX;
+    public AudioClip activeSFX;
 
     float currentBattery;
 

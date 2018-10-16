@@ -912,7 +912,8 @@ namespace Valve.VR.InteractionSystem
 			Teleport.Player.Send( pointedAtTeleportMarker );
 
             // ** RYAN'S ADDED **
-            teleportArea.locked = true;
+            if(teleportArea != null)
+                teleportArea.locked = true;
             cooldownTimer = teleportCoolDown;
 		}
 
